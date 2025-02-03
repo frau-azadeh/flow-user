@@ -41,4 +41,4 @@ Check out the live [demo](https://flow-user.vercel.app)
 
 Developed with 🌻 by Azadeh Sharifi Soltani
 
-Feel free to connect and collaborate!
+Feel free to connect and collaborate
