@@ -1,10 +1,10 @@
 "use client"
 
-import { getEmployees } from "@/lib/api/employee";
+import { getUsers } from "@/lib/api/employee";
 import { useQuery } from "@tanstack/react-query";
 
 export default function EmployeesPage(){
-    const{data, error, isLoading} = useQuery({queryKey:["employee"], queryFn: getEmployees});
+    const{data, error, isLoading} = useQuery({queryKey:["employee"], queryFn: getUsers});
 
     if(isLoading) return <p className="text-center text-blue-500">در حال بارگذاری ... </p>
     if(error) return <p className="text-center text-red-500">خطایی ره داده است.</p>
