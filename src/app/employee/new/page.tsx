@@ -1,3 +1,5 @@
+"use client"
+
 import { createUser } from "@/lib/api/employee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -35,6 +37,28 @@ return(
                 placeholder="نام"
                 className="border p-2 rounded"
             />
+            <label className="text-gray-800">ایمیل<span className="text-red-500">*</span></label>
+            <input
+                {...register("email", {required:"لطفا ایمیل خود را وارد کنید!"})}
+                type="email"
+                placeholder="ایمیل"
+                className="border p-2 rounded"
+            />
+            <label className="text-gray-800">عنوان شغلی<span className="text-red-500">*</span></label>
+            <input
+                {...register("position", {required:"عنوان شغلی خود را وارد کنید!"})}
+                type="text"
+                placeholder="عنوان شغلی"
+                className="border p-2 rounded"
+            />
+            <button
+                type="submit"
+                className="bg-blue-500 text-white p-2 rounded"
+                disabled={mutation.isPending}
+            >
+                {mutation.isPending ? "در حال ارسال اطلاعات":"افزودن کارمند"}
+            </button>
+            {mutation.isError&&<p className="text-red-500">خطایی رخ داده !</p>}
         </form>
     </div>
 )
