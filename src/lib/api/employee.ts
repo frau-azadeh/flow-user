@@ -1,21 +1,71 @@
-import { api } from "../api";
+import axios from "axios";
 
-export const createUser = async (employee:{name: string; email:string; position:string})=>{
-    const {data} = await api.post("/", employee);
-    return data;
-}
+const API_BASE_URL = "https://679a1892747b09cdcccdac6b.mockapi.io/employee/managment";
 
+export const api = axios.create({
+    baseURL: API_BASE_URL,
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
+
+// ✅ دریافت لیست کاربران
 export const getUsers = async () => {
-    const { data } = await api.get("/");
-    return data;
-  };
+    try {
+        const response = await api.get("/");
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطا در دریافت کاربران:", error);
+        throw error;
+    }
+};
 
-  export const updateUser = async (id: string, user: { name: string; email: string }) => {
-    const { data } = await api.put(`/users/${id}`, user); 
-    return data;
-  };
-  
-  export const deleteUser = async (id: string) => {
-    await api.delete(`/users/${id}`); 
-  };
-  
+// ✅ دریافت یک کاربر خاص بر اساس `id`
+export const getUserById = async (id: number | string) => {
+    try {
+        const response = await api.get(`/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`❌ خطا در دریافت اطلاعات کاربر با ID: ${id}`, error);
+        throw error;
+    }
+};
+
+// ✅ ایجاد کاربر جدید
+export const createUser = async (data: { name: string; email: string; position: string }) => {
+    try {
+        console.log("📤 ارسال اطلاعات برای ایجاد کاربر جدید:", JSON.stringify(data, null, 2));
+
+        const response = await api.post("/", data);
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطا در ایجاد کاربر:", error);
+        throw error;
+    }
+};
+
+// ✅ بروزرسانی اطلاعات کاربر
+export const updateUser = async (id: number | string, data: any) => {
+    try {
+        console.log("📤 ارسال اطلاعات برای ویرایش:", JSON.stringify(data, null, 2));
+
+        const response = await api.put(`/${id}`, data);
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطا در بروزرسانی کارمند:", error);
+        throw error;
+    }
+};
+
+// ✅ حذف کاربر
+export const deleteUser = async (id: number | string) => {
+    try {
+        console.log(`🗑 حذف کاربر با ID: ${id}`);
+
+        const response = await api.delete(`/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`❌ خطا در حذف کاربر با ID: ${id}`, error);
+        throw error;
+    }
+};
