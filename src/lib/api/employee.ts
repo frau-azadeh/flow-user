@@ -1,62 +1,63 @@
-
 import { api } from "../api";
+
+const axiosConfig = {
+    headers: {
+        "Content-Type": "application/json",
+    },
+};
+
 // ✅ دریافت لیست کاربران
 export const getUsers = async () => {
     try {
-        const response = await api.get("/");
+        const response = await api.get("/", axiosConfig);
         return response.data;
     } catch (error) {
-        console.error("❌ خطا در دریافت کاربران:", error);
-        throw error;
+        throw new Error("❌ دریافت کاربران ناموفق بود!");
     }
 };
 
-// ✅ دریافت یک کاربر خاص بر اساس `id`
+// ✅ دریافت اطلاعات یک کاربر خاص
 export const getUserById = async (id: number | string) => {
+    if (!id) throw new Error("❌ ID مورد نیاز است!");
+
     try {
-        const response = await api.get(`/${id}`);
+        const response = await api.get(`/${id}`, axiosConfig);
         return response.data;
     } catch (error) {
-        console.error(`❌ خطا در دریافت اطلاعات کاربر با ID: ${id}`, error);
-        throw error;
+        throw new Error("❌ دریافت اطلاعات کاربر ناموفق بود!");
     }
 };
 
 // ✅ ایجاد کاربر جدید
 export const createUser = async (data: { name: string; email: string; position: string }) => {
     try {
-        console.log("📤 ارسال اطلاعات برای ایجاد کاربر جدید:", JSON.stringify(data, null, 2));
-
-        const response = await api.post("/", data);
+        const response = await api.post("/", data, axiosConfig);
         return response.data;
     } catch (error) {
-        console.error("❌ خطا در ایجاد کاربر:", error);
-        throw error;
+        throw new Error("❌ ایجاد کاربر ناموفق بود!");
     }
 };
 
 // ✅ بروزرسانی اطلاعات کاربر
 export const updateUser = async (id: number | string, data: any) => {
-    try {
-        console.log("📤 ارسال اطلاعات برای ویرایش:", JSON.stringify(data, null, 2));
+    if (!id) throw new Error("❌ ID برای ویرایش ضروری است!");
 
-        const response = await api.put(`/${id}`, data);
+    try {
+        const response = await api.put(`/${id}`, data, axiosConfig);
         return response.data;
     } catch (error) {
-        console.error("❌ خطا در بروزرسانی کارمند:", error);
-        throw error;
+        throw new Error("❌ بروزرسانی کاربر ناموفق بود!");
     }
 };
 
 // ✅ حذف کاربر
 export const deleteUser = async (id: number | string) => {
-    try {
-        console.log(`🗑 حذف کاربر با ID: ${id}`);
+    if (!id) throw new Error("❌ ID برای حذف ضروری است!");
 
-        const response = await api.delete(`/${id}`);
+    try {
+        const response = await api.delete(`/${id}`, axiosConfig);
         return response.data;
     } catch (error) {
-        console.error(`❌ خطا در حذف کاربر با ID: ${id}`, error);
-        throw error;
+        throw new Error("❌ حذف کاربر ناموفق بود!");
     }
 };
