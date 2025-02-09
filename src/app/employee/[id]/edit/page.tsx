@@ -37,7 +37,7 @@ export default function EditEmployeePage({ params }: { params: { id: string } })
     mutationFn: (data: EmployeeForm) => updateUser(params.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
-      router.push("/employee");
+      router.push("/employee/edit");
     },
     onError: (error) => {
       console.error("❌ خطا در ویرایش کارمند:", error);
